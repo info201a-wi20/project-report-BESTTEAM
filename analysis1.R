@@ -2,46 +2,12 @@ library("tidyr")
 library("dplyr")
 library("tibble")
 library("haven")
-library(help = "datasets")
 library("ggplot2")
-
-source(paste0(getwd(), "/GetData.R"))
-
-
-# Death Rate vs Survival Rate
-
-virus <- getVirus()
-processed <- v %>% group_by(Date) %>%
-  summarise(sum_confirmed = sum(Confirmed),
-            sum_death = sum(Deaths),
-            sum_recovered = sum(Recovered)) %>%
-  mutate(death_rate = sum_death * 100 / sum_confirmed,
-         recover_rate = sum_recovered * 100 / sum_confirmed)
-
-processed_China <- virus %>% filter(Country.Region == "Mainland China") %>%
-  group_by(Date) %>%
-  summarise(sum_confirmed = sum(Confirmed),
-            sum_death = sum(Deaths),
-            sum_recovered = sum(Recovered)) %>%
-  mutate(death_rate = sum_death * 100 / sum_confirmed,
-         recover_rate = sum_recovered * 100 / sum_confirmed)
-
-ggplot(data = processed) +
-  geom_line(mapping = aes(x = Date, y = death_rate, group = 1, colour = "Death")) +
-  geom_line(mapping = aes(x = Date, y = recover_rate, group = 1, colour = "Recover")) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  labs(
-    title = "Death vs. Recovered",
-    x = "Date",
-    y = "Rate",
-    color = "Legend"
-  ) + scale_color_manual(values = c("Death" = "red", "Recover" = "green"))
-
-
-
+library(help = "datasets")
 # Q1: Based on the data set, 
 # does the number of coronovirus pneumonia cases confirmed 
 # have no effect on the price of natural gas?
+
 path <- paste0(getwd(), "/daily_csv.csv")
 natural_gas <- read.csv(path, stringsAsFactors = FALSE)
 ng <- natural_gas[5794:5813,]
@@ -78,9 +44,9 @@ confirmed <- rename(confirmed1,
                     "2/18/20" = "v33")
 summary(confirmed)
 x <- rbind(confirmed, c("Mean", "7.303","8.592","12.38","18.87","27.87","38.51","73.39",
-                        "81.13","108.3","130.62","158.4","220.88","261.59","314.37",
-                        "363.6","405.5","452.53","488.43","528.3","562.7","589.5","595.0",
-                        "794.3", "880.1","908.3","937.2","964.0","988.7"))
+                   "81.13","108.3","130.62","158.4","220.88","261.59","314.37",
+                   "363.6","405.5","452.53","488.43","528.3","562.7","589.5","595.0",
+                   "794.3", "880.1","908.3","937.2","964.0","988.7"))
 
 mean <- x %>% 
   filter(regions == "Mean") %>% 

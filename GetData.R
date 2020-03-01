@@ -1,7 +1,8 @@
 library(httr)
 library(tidyr)
+library(dplyr)
 library(jsonlite)
-library (plyr)
+
 
 # Usage: f: from date "yyyy-mm-dd", t: to date "yyyy-mm-dd", country_code:
 # country code of country ("US", "CN")
@@ -22,7 +23,7 @@ getStock <- function(f, t, country_code) {
 }
 
 getVirus <- function() {
-  path <- paste0(getwd(),"/data/cov_data/covid_19_data.csv")
+  path <- paste0(getwd(), "/data/cov_data/covid_19_data.csv")
   c <- read.csv(path, stringsAsFactors = FALSE)
   c <- c[-1]
   names <- colnames(c)
@@ -30,5 +31,10 @@ getVirus <- function() {
   colnames(c) <- names
   return(c)
 }
+
+
+
+
+
 
 

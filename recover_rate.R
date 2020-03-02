@@ -6,11 +6,11 @@ library("wbstats")
 library("maps")
 
 virus <- getVirus()
-View(virus)
+#View(virus)
 
 map_gg <- map_data("world") 
 map_gg <- mutate(map_gg, iso3c = iso.alpha(map_gg$region, n = 3))
-View(map_gg)
+#View(map_gg)
 virus[virus$Country.Region == "Mainland China", "Country.Region"] = "China"
 virus[virus$Country.Region == "Hong Kong", "Country.Region"] = "China"
 virus[virus$Country.Region == "Macau", "Country.Region"] = "China"

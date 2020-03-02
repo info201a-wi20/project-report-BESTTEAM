@@ -29,15 +29,40 @@ processed <- virus %>% group_by(Date) %>%
   mutate(death_rate = sum_death * 100 / sum_confirmed,
          recover_rate = sum_recovered * 100 / sum_confirmed)
 
-processed_China <- virus %>% filter(Country.Region == "Mainland China") %>%
-  group_by(Date) %>%
-  summarise(sum_confirmed = sum(Confirmed),
-            sum_death = sum(Deaths),
-            sum_recovered = sum(Recovered)) %>%
+max_death <- virus %>% group_by(Country.Region, Province.State) %>%
+  summarise(max_confirmed = max(Confirmed),
+            max_death = max(Deaths),
+            max_recovered = max(Recovered))  %>%
+  group_by(Country.Region) %>%
+  summarise(sum_confirmed = sum(max_confirmed),
+            sum_death = sum(max_death),
+            sum_recovered = sum(max_recovered)) %>%
   mutate(death_rate = sum_death * 100 / sum_confirmed,
-         recover_rate = sum_recovered * 100 / sum_confirmed)
+         recover_rate = sum_recovered * 100 / sum_confirmed) %>%
+  arrange(-death_rate) %>% head(1)
 
-ggplot(data = processed) +
+max_death_region <- max_death$Country.Region
+max_death_rate <- max_death$death_rate
+
+max_recover <- virus %>% group_by(Country.Region, Province.State) %>%
+  summarise(max_confirmed = max(Confirmed),
+            max_death = max(Deaths),
+            max_recovered = max(Recovered))  %>%
+  group_by(Country.Region) %>%
+  summarise(sum_confirmed = sum(max_confirmed),
+            sum_death = sum(max_death),
+            sum_recovered = sum(max_recovered)) %>%
+  mutate(death_rate = sum_death * 100 / sum_confirmed,
+         recover_rate = sum_recovered * 100 / sum_confirmed) %>%
+  arrange(-recover_rate) %>% head(1)
+  
+max_recover_region <- max_recover$Country.Region
+max_recover_rate <- max_recover$recover_rate
+
+death_latest <- (processed  %>% tail(1))$death_rate
+recover_latest <- (processed %>% tail(1))$recover_rate
+
+death_vs_recover <- ggplot(data = processed) +
   geom_line(mapping = aes(x = Date, y = death_rate, group = 1, colour = "Death")) +
   geom_line(mapping = aes(x = Date, y = recover_rate, group = 1, colour = "Recover")) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +

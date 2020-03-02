@@ -63,7 +63,6 @@ natural_by_date
 
 The above graph analyzes the price of Natural gas over time, we can see that there is not a pattern for this data except a fluctuation around 1.95 USD.
 
-By our observation, there is not much outliers in our data because many of them are manually imported and they are from reliable resourse. Some data like the data of COVIS-19 of some European countries may be an outlier for some cases, but for our cases, we only use them for summation so they are not outliers in our case.
 
 ### The List of Questions Covered:
 
@@ -119,7 +118,7 @@ This question is interesting because we will then be able to gain a sense of how
 
 I first pull the data of Conoravirus case by the getVirus function we created. I also get the data of the world map through wbstats package. Then I added iso3c code to each data set so they can join later.(There is no iso3c code for "Mainland China" so I combined the data from Mainland china, Hongkong, Macau and Taiwan into "China".) In order to get the recover rate among each countries/region, I then grouped the countries/region, used the summary feature in dplyr package to sum up the confirmed cases and also the recover cases. Then I added a column calculating the percentage of recover rate. After this, I used left.join to combine the virus dataset with the world map dataset, then use ggplot to create a visualization for it.
 
-```{r recovery, echo=FALSE}
+```{r recovery_compare, echo=FALSE}
 plot(recover_compare)
 ```
 

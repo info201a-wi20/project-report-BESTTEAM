@@ -6,23 +6,36 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-source("recover_rate.R")
+library(knitr)
+source("analysis.R")
+corr <- correlation
 ```
 
 ## Problem Domain
 
 Recently, influenced by COVIS-19 pneumonia, Chinese state-backed importers of natural gas are examining if they can provisionally halt contracts for the supercooled fuel, as the COVIS-19 outbreak depresses energy demand in the world’s second-largest economy. This temporary cancellation of contracts has created headaches for natural gas suppliers and made them concerned about the future.
 
-Therefore, our group will discuss the correlation between spreading of COVIS-19 and the price of natural gas in the final project. This topic is meaningful because natural gas is one of the most important resources in the world and its market is closely tied to the global economy and to our daily life. The data of COVIS-19 virus spreading is from the World Health Organization and the data of natural gas prices is from datahub. They are all credible and sources. 
+Since natural gas is one of the three most important fossil fuels, the natural gas market could have a large impact on the global economy. Therefore, our group will discuss the correlation between the spreading of COVIS-19 and two important economic indicators, price of natural gas and NBEV stock, in the final project. NBEV stock is an important but relatively risky stock which could reflect the stability of the stock market. If the price of NBEV goes down, it’s probably because investors become concerned about the future economy in the short run.
 
-Only very basic statistical knowledge will be involved in our report and it should be straightforward for every reader!
+The data of COVIS-19 virus spreading is from the World Health Organization and the data of natural gas prices is from datahub. They are all credible and sources. Only very basic statistical knowledge will be involved in our report and it should be straightforward for every reader!
+
 
 ### The List of Questions Covered:
 
 #### 1. Based on the data set, does the number of coronovirus pneumonia cases confirmed have no effect on the price of natural gas?
 
-Since we have many features describing the spreading of coronavirus, we need to find out which feature could have the most direct impact on the price of natural gas.
+Since the outbreak of coronavirus has raised concerns of suppliers of natural gas, it is meaningful to explore the relationship between natural gas prices and confirmed cases number.
+
+In this question, we use simple regression model and correlation to solve this problem. 
+
+Under the simple regression model, we can get a graph of the number of confirmed cases and the price of natural gas.
+```{r echo=FALSE}
+reg
+```
+
+The correlation of these two factor is `r corr`,which is a quite small number, indicating that based on the data we obtained, natural gas price seems to be unrelated with the number of cases confirmed statistically. Even though this conclusion seems to contradict with the economic expectation, it is explainable because currently, we have very limited statistics of coronavirus spreading. Restricted by the small pool of data, it is possible that our conclusion is not consistent with the long-term trend.
+
+
 
 
 #### 2. 

@@ -235,6 +235,40 @@ reg_volume <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder
 
 correlation_volume <- cor(as.numeric(new_date_frame$virus_df_new), as.numeric(new_date_frame$volume)) # 0.5493214
 
+#3: Based on the data set, 
+# what is the effect of the number of coronavirus pneumonia cases
+#   confirmed have on the close amount of the stock trade of [company]? 
+stock_df <- getStock("2020-01-22", "2020-02-20", "CN")
+virus_df <- read.csv("data/cov_data/time_series_covid_19_confirmed.csv", 
+                     stringsAsFactors = FALSE)
+stock_df_close <- stock_df %>% select(Date, close)
+virus_df <- virus_df %>% filter(Country.Region == "Mainland China")
+
+
+drops <- c("Province.State", "Country.Region", "Lat", "Long")
+virus_df <- virus_df[ , !(names(virus_df) %in% drops)]
+mean <- virus_df %>% 
+  summarise_all("mean")
+
+virus_df_new <-data.frame(c(mean)) %>% 
+  gather(key = Date, value = Confirmed_cases) %>% select(Confirmed_cases)
+
+date_insert <- c(stock_df_close %>% pull(Date)) #  length 21
+
+virus_df_new <- virus_df_new[-c(4, 5, 6, 11, 12, 18, 19, 22, 23), ]
+
+new_date_frame <- data.frame(stock_df_close, virus_df_new)
+
+reg <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder(close, virus_df_new)), y = close))+
+  geom_point(color = "red")+
+  labs(title = "Regression of closing stock amount and confirmed cases", 
+       x = "Number of confirmed cases", 
+       y = "Close amount")+
+  geom_smooth(method = "lm", se = FALSE, color = "blue")+
+  theme_bw()
+
+correlation_close <- cor(as.numeric(new_date_frame$close), as.numeric(new_date_frame$virus_df_new)) # 0.5493214
+
 
 #What is the comparison of the recover rate among all countries/regions?
 

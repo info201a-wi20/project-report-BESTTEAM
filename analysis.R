@@ -7,11 +7,20 @@ library("ggplot2")
 
 source(paste0(getwd(), "/GetData.R"))
 
+# Sample of sources
+path <- paste0(getwd(), "/daily_csv.csv")
+natural_gas <- read.csv(path, stringsAsFactors = FALSE)
+ng <- natural_gas[5794:5813,]
+ng$Date <- as.Date(ng$Date)
+stock_sample <- getStock("2020-01-22", "2020-02-02", "US") %>% left_join(ng, by = "Date") %>% top_n(3)
+virus_sample <- getVirus() %>% select(Date, Province.State, Country.Region, Confirmed, Deaths, Recovered) %>% top_n(3)
+
+
 
 # Death Rate vs Survival Rate
 
 virus <- getVirus()
-processed <- v %>% group_by(Date) %>%
+processed <- virus %>% group_by(Date) %>%
   summarise(sum_confirmed = sum(Confirmed),
             sum_death = sum(Deaths),
             sum_recovered = sum(Recovered)) %>%
@@ -107,5 +116,5 @@ print(model)
 
 correlation <- cor(as.numeric(joined$Price), as.numeric(joined$mean_cases))
 
-View(confirmed)
+# View(confirmed)
 

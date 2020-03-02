@@ -85,7 +85,24 @@ This question is interesting because we are able to find out if people’s willi
 
 
 
-#### 3. 
+#### 3. To what extent are the coronavirus pneumonia cases affecting the amount of money that are exchanging the economy.
+
+This question is interesting because we are able to see if the amount of money people are willing to spend on the stock market is currently in a bad state and if there is anything we need to do about it, considering the severity of the coronavirus.
+
+
+
+
+
+```{r recovery, echo=FALSE}
+reg_close
+```
+
+In this question, we use simple regression model and correlation to solve this problem.The data of COVIS-19 virus spreading is from the World Health Organization(https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset) and the data of natural gas prices is from datahub(https://datahub.io/core/natural-gas). They are all credible and sources. 
+
+Under the simple regression model, we can get a graph of the number of confirmed cases and the price of natural gas.
+
+
+According to the coronavirus data, it is clear that because the outbreak of the virus in different countries takes time, every region are at a different stage right now. We are still in the middle of the epidemic, and the data are updating every day, which means that the results we got now are not the latest and might not valid in the future.
 
 
 
@@ -94,18 +111,16 @@ This question is interesting because we are able to find out if people’s willi
 
 This question is interesting because we will then be able to gain a sense of how people are taking control of the issue and which country could potentially have a better medical system or technology.
 
-I first pull the data of Conoravirus case by the getVirus function we created. I also get the data of the world map through wbstats package. Then I added iso3c code to each data set so they can join later.(There is no iso3c code for "Mainland China" so I combined the data from Mainland china, Hongkong, Macau and Taiwan into "China".) In order to get the recover rate among each countries/region, I then grouped the countries/region, used the summary feature in dplyr package to sum up the confirmed cases and also the recover cases. Then I added a column calculating the percentage of recover rate. After this, I used left.join to combine the virus dataset with the world map dataset, then use ggplot to create a visualization for it.
+
+In this question, we use simple regression model and correlation to solve this problem.The data of COVIS-19 virus spreading is from the World Health Organization(https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the yahoo finance api (https://rapidapi.com/apidojo/api/yahoo-finance1, end point stock/get-histories) and parsed into an expected format.
+
+I pulled out the stock closing data for China first(from 2020-01-22 to 2020-02-20), and also the data of COVIS-19. Then I calculated the mean value of confirmed cases for each date that was included and put that into a seperate data frame. Since there are some dates missing in the stock data frame, for clarity and simplicity, I droped some rows in the confirmed cases table to match the number of rows in stock data frame so that it's easier to join and analysis. Then I put the information on these two tables together, and draw the graph that shows the relationship between closing amount of stock and the number of confirmed cases for COVIS-19.
 
 ```{r recovery, echo=FALSE}
 plot(recover_compare)
 ```
 
-**Result:** 
 
-The darker the color, the lower the recovery rate is. For countries/regions that have over 100 confirmed cases, Italy, South Korea, Canada, the US, and China are five countries that have a lower recovery rate. China, with its vast confirmed case (1201794) and its 15% recovery rate, has a moderate level of control policies and significant medical resources support. However, countries like Italy with its 1.02% recovery rate, South Korea with its 8% recovery rate, Canada with its 10.77% recovery rate, and the US with its 12.81% recovery rate should pay more attention to this issue and provide more medical resources for their citizens.
-
-**Evaluation:** 
-According to the coronavirus data, it is clear that because the outbreak of the virus in different countries takes time, every region are at a different stage right now. We are still in the middle of the epidemic, and the data are updating every day, which means that the results we got now are not the latest and might not valid in the future.
 
 
 #### 5. Based on the data set, are we dealing with this issue better or worse based on the current medical technologies?

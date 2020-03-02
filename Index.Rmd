@@ -10,6 +10,7 @@ library(knitr)
 source("analysis.R")
 library("knitr")
 corr <- correlation
+corr2 <- correlation_volume
 ```
 
 ## Problem Domain
@@ -37,10 +38,25 @@ reg
 The correlation of these two factor is `r corr`,which is a quite small number, indicating that based on the data we obtained, natural gas price seems to be unrelated with the number of cases confirmed statistically. Even though this conclusion seems to contradict with the economic expectation, it is explainable because currently, we have very limited statistics of coronavirus spreading. Restricted by the small pool of data, it is possible that our conclusion is not consistent with the long-term trend.
 
 
-#### 2. 
-This question is interesting because we are able to find out if people’s willingness to participate in the economy is an issue and if there is anything we need to do about it, considering the severity of the coronavirus. 
+#### 2. Based on the data set, what is the effect of the number of coronavirus pneumonia cases confirmed have on the volume of the stock trade of [company]? 
+**(i.e.: To what extent are the coronavirus pneumonia cases affecting the willingness that people have to participate in the economy.)**
 
+We would like to find out if people’s willingness to participate in the economy is an issue and if there is anything we need to do about it, considering the severity of the coronavirus.
 
+In this question, we use simple regression model and correlation to solve this problem.The data of COVIS-19 virus spreading is from the World Health Organization(https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the yahoo finance api (https://rapidapi.com/apidojo/api/yahoo-finance1, end point stock/get-histories) and parsed into an expected format.
+
+**Data analysis method: **
+I pulled out the stock data for China first(from 2020-01-22 to 2020-02-20), and also the data of COVIS-19. Then I calculated the mean value of confirmed cases for each date that was included and put that into a seperate data frame. Since there are some dates missing in the stock data frame, for clarity and simplicity, I droped some rows in the confirmed cases table to match the number of rows in stock data frame so that it's easier to join and analysis. Then I put the information on these two tables together, and draw the graph that shows the relationship between volume of stock and the number of confirmed cases for COVIS-19.
+
+```{r echo=FALSE}
+reg_volume
+```
+
+**Result: **
+The correlation of these two factor is `r corr2`, it's slightly more than 0.5 which gets closer to 1. This value indicates that based on the data we obtained, number of confirmed cases and the volume of stock are related, but not related in large extent.
+
+**Evaluation: ** 
+The result answers the question that there definitely have correlations between number of confirmed cases of coronavirus and the volume of stock, which means the number of confirmed cases will largely affect people's willingness to participate in the economy. It's explainable because the data size we are using is not very large, and some dates are not included due to some reasons in colleting data, the trend in the future might not be same, and there will likely have variations based on location and time.
 
 #### 3. 
 

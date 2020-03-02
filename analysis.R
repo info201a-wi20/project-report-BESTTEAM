@@ -135,16 +135,15 @@ virus_df <- virus_df[ , !(names(virus_df) %in% drops)]
 mean <- virus_df %>% 
   summarise_all("mean")
 
-virus_df_new <-data.frame(c(mean)) %>% 
+virus_new <-data.frame(c(mean)) %>% 
   gather(key = Date, value = Confirmed_cases) %>% select(Confirmed_cases)
+#date_insert <- c(stock_df %>% pull(Date)) #  length 21
 
-date_insert <- c(stock_df %>% pull(Date)) #  length 21
+virus_new <- virus_new[-c(4, 5, 6, 11, 12, 18, 19, 22, 23), ]
 
-virus_df_new <- virus_df_new[-c(4, 5, 6, 11, 12, 18, 19, 22, 23), ]
+new_date_frame <- data.frame(stock_df, virus_new)
 
-new_date_frame <- data.frame(stock_df, virus_df_new)
-
-reg_volume <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder(volume, virus_df_new)), y = volume))+
+reg_volume <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder(volume, virus_new)), y = volume))+
   geom_point(color = "red") +
   labs(title = "Regression of volume amount and confirmed cases", 
        x = "Number of confirmed cases", 
@@ -152,7 +151,7 @@ reg_volume <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
   theme_bw()
 
-correlation_volume <- cor(as.numeric(new_date_frame$virus_df_new), as.numeric(new_date_frame$volume)) # 0.5493214
+correlation_volume <- cor(as.numeric(new_date_frame$virus_new), as.numeric(new_date_frame$volume)) # 0.5493214
 
 
 #What is the comparison of the recover rate among all countries/regions?

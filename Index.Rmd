@@ -64,8 +64,28 @@ The darker the color, the lower the recovery rate is. For countries/regions that
 According to the coronavirus data, it is clear that because the outbreak of the virus in different countries takes time, every region are at a different stage right now. We are still in the middle of the epidemic, and the data are updating every day, which means that the results we got now are not the latest and might not valid in the future.
 
 
-#### 5. 
+#### 5. Based on the data set, are we dealing with this issue better or worse based on the current medical technologies?
 
+This question is interesting because by looking at the trend of these two data, we are able to see whether the current treatment is getting more effective or not.
+
+Here, the death rate is the number of death devided by the number of confirmed cases. The recover rate is the number of recovered cases devided by the confirmed cases. The question is analyzed by comparing the death rate nad recover rate overtime.
+
+This question is approached by comparing the overall death rate to the overall recover rate over time after the virus has been discovered. With the data of the confirmed, death, and recovered number of each day for every region, I summarised the number of confirmed, death, and recovered by each date, then I calculated the death rate and recovered rate by dividing the number of death on that day, the number of recovered on that day, by the number of confirmed by that day.
+
+The following graph is made by mapping the two rates to date by timeline. The green line represents the recover rate and the red line represents the death rate.
+
+
+```{r death_vs_recovery, echo=FALSE}
+death_vs_recover
+```
+
+We also tried to understand which region has the highest death rate and recover rate. We did that by grouping the dataset by the country and summing the number of confirmed of the latest record and calcultae the death and recover rate. The result is that `r max_death_region` has the max death rate of `r paste0(round(max_death_rate, 0), "%")` and `r max_recover_region` has the max recover rate of `r paste0(max_recover_rate, "%")`.
+
+Based on the graph, we can observe that the recover rate has a decrease before Febuary and then it shows a trend of growth, where the death rate has been fluctuating at the same level. We can conclude that even though the death rate is not getting lower, we are still doing well on the recover rate.
+
+There are some limitations to our data that is worth discussing. First, the max recover rate is `r paste0(max_recover_rate, "%")` in `r max_recover_region`, where there is only one confirmed case and the person has recovered, it is one of the edge cases that does not signify any information about the medical system. Second, the data used for the graph is the sum from all regions where each region are in various stages of the breakout. It is not the best practice for analysing how we are doing on the medical system. Third, the amount of data is still limited given that the break out was not far ago. More data is needed for making a conclusion.
+
+However, baase on the current data, we can see that the death rate of `r paste0(round(death_latest, 0), "%")`, and the recover rate of `r paste0(round(recover_latest, 0), "%")` are approaching to the right estimated value and more and more people are getting recovered from the virus. While there is no medical treatment targetting this virus, there is no need to worry about it too much if the right actions are made to protect people from getting infected.
 
 ## Data Description
 We are using two datasets: one is the novel coronavirus dataset which contains the records of value for the confirmed case, recovered case and death case from different districts over the world by date; another is the economic change dataset which contains the value for natural gas trade and the US stock market value within the same time zone as the coronavirus. 

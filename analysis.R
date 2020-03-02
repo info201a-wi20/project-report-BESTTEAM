@@ -253,13 +253,13 @@ mean <- virus_df %>%
 virus_df_new <-data.frame(c(mean)) %>% 
   gather(key = Date, value = Confirmed_cases) %>% select(Confirmed_cases)
 
-date_insert <- c(stock_df_close %>% pull(Date)) #  length 21
+date_insert_close <- c(stock_df_close %>% pull(Date)) #  length 21
 
 virus_df_new <- virus_df_new[-c(4, 5, 6, 11, 12, 18, 19, 22, 23), ]
 
 new_date_frame <- data.frame(stock_df_close, virus_df_new)
 
-reg <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder(close, virus_df_new)), y = close))+
+reg_close <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder(close, virus_df_new)), y = close))+
   geom_point(color = "red")+
   labs(title = "Regression of closing stock amount and confirmed cases", 
        x = "Number of confirmed cases", 

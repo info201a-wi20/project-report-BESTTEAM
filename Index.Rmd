@@ -20,6 +20,49 @@ Since natural gas is one of the three most important fossil fuels, the natural g
 
 Only very basic statistical knowledge will be involved in our report and it should be straightforward for every reader!
 
+## Data Description
+We are using two datasets: one is the novel coronavirus dataset which contains the records of value for the confirmed case, recovered case and death case from different districts over the world by date; another is the economic change dataset which contains the value for natural gas trade and the US stock market value within the same time zone as the coronavirus. 
+
+We got the novel coronavirus dataset from [Kaggle](https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data originally comes from Johns Hopkins University. One note about this dataset is that it’s time series data.
+
+```{r echo=FALSE}
+kable(virus_sample)
+```
+
+In the above table: Confirmed, Death, Recovered are the number of the Confirmed, Death, Recovered found in Province.State of Country.Region on that Date. The unit is person.
+
+The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the [yahoo finance api](https://rapidapi.com/apidojo/api/yahoo-finance1), end point "stock/get-histories" and parsed into an expected format. It is joined with the data of natural gas by date. The data of natural gas is retrived from [datahub](https://datahub.io/core/natural-gas), that is collected from U.S. Energy Information Administration EIA Dataset.
+
+```{r echo=FALSE}
+kable(stock_sample)
+```
+
+In the above table: low, high, close, open is the lowest price, highest price, closing price, and opening price in USD of "NBEV" on that date, price is the price of natural gas in USD. Volume is the volume of trade of "NBEV" on that date.
+
+### Data Analysis
+By analyzing the COVIS-19 data, we get that currently, there are `r sum_confirmed` confirmed cases, `r sum_death` death cases, and `r sum_recovered` cases world wide by 02/23/2020. We can see that it is reaaly a big and worldwide issue now. The max stock closing price is `r round(max_close, 2)` and the max natural gas price is `r max_natural`. These data would be intereting to think about, considering the corelation with the COVIS-19 issue.
+
+The are some graphs showing the analysis of the data
+
+```{r echo=FALSE}
+confirmed_by_date
+```
+
+The above graph analyzes the confirmed cases over time, we can see that the number of confirmed cases is growing and it is growing faster and faster.
+
+```{r echo=FALSE}
+death_by_date
+```
+
+The above graph analyzes the death cases over time, we can see that the number of death cases is also growing along with the confirmed cases. This is expected because the more people get confirmed, given the same death rate of the virus, the number is also growing.
+
+```{r echo=FALSE, warning=FALSE}
+natural_by_date
+```
+
+The above graph analyzes the price of Natural gas over time, we can see that there is not a pattern for this data except a fluctuation around 1.95 USD.
+
+By our observation, there is not much outliers in our data because many of them are manually imported and they are from reliable resourse. Some data like the data of COVIS-19 of some European countries may be an outlier for some cases, but for our cases, we only use them for summation so they are not outliers in our case.
 
 ### The List of Questions Covered:
 
@@ -88,21 +131,3 @@ There are some limitations to our data that is worth discussing. First, the max 
 
 However, baase on the current data, we can see that the death rate of `r paste0(round(death_latest, 0), "%")`, and the recover rate of `r paste0(round(recover_latest, 0), "%")` are approaching to the right estimated value and more and more people are getting recovered from the virus. While there is no medical treatment targetting this virus, there is no need to worry about it too much if the right actions are made to protect people from getting infected.
 
-## Data Description
-We are using two datasets: one is the novel coronavirus dataset which contains the records of value for the confirmed case, recovered case and death case from different districts over the world by date; another is the economic change dataset which contains the value for natural gas trade and the US stock market value within the same time zone as the coronavirus. 
-
-We got the novel coronavirus dataset from [Kaggle](https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data originally comes from Johns Hopkins University. One note about this dataset is that it’s time series data.
-
-```{r echo=FALSE}
-kable(virus_sample)
-```
-
-In the above table: Confirmed, Death, Recovered are the number of the Confirmed, Death, Recovered found in Province.State of Country.Region on that Date. The unit is person.
-
-The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the [yahoo finance api](https://rapidapi.com/apidojo/api/yahoo-finance1), end point "stock/get-histories" and parsed into an expected format. It is joined with the data of natrual gas by date. The data of natrual gas is retrived from [datahub](https://datahub.io/core/natural-gas), that is collected from U.S. Energy Information Administration EIA Dataset.
-
-```{r echo=FALSE}
-kable(stock_sample)
-```
-
-In the above table: low, high, close, open is the lowest price, highest price, closing price, and opening price in USD of "NBEV" on that date, price is the price of natural gas in USD. Volume is the volume of trade of "NBEV" on that date.

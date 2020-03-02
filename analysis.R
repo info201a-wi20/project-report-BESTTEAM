@@ -17,11 +17,67 @@ ng$Date <- as.Date(ng$Date)
 stock_sample <- getStock("2020-01-22", "2020-02-02", "US") %>% left_join(ng, by = "Date") %>% top_n(3)
 virus_sample <- getVirus() %>% select(Date, Province.State, Country.Region, Confirmed, Deaths, Recovered) %>% top_n(3)
 
+# analysis of data
+virus <- getVirus()
+# Sum of the confrimed, recovered, death
+latest_virus <- virus %>% group_by(Country.Region, Province.State) %>%
+  summarise(max_confirmed = max(Confirmed),
+            max_death = max(Deaths),
+            max_recovered = max(Recovered))  %>%
+  group_by(Country.Region) %>%
+  summarise(sum_confirmed = sum(max_confirmed),
+            sum_death = sum(max_death),
+            sum_recovered = sum(max_recovered))
+sum_confirmed <- sum(latest_virus$sum_confirmed)
+sum_death <- sum(latest_virus$sum_death)
+sum_recovered <- sum(latest_virus$sum_recovered)
 
+# max of natural gas price and stock closing price
+stock_recent <- getStock("2020-01-22", "2020-02-23", "US") %>% left_join(ng, by = "Date")
+max_natural <- max(stock_recent$Price, na.rm = TRUE)
+max_close <- max(stock_recent$close)
+
+# confirmed by date in China
+confrimed_by_date_df <- virus %>% filter(Country.Region == "Mainland China") %>%
+  group_by(Date) %>%
+  summarise(sum_confirmed = sum(Confirmed))
+
+confirmed_by_date <- ggplot(data = confrimed_by_date_df) +
+  geom_line(mapping = aes(x = Date, y = sum_confirmed, group = 1)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Confirmed by Date",
+    x = "Date",
+    y = "Number of Cases"
+  )
+  
+# Death by date world wide
+death_by_date_df <- virus %>%
+  group_by(Date) %>%
+  summarise(sum_death = sum(Deaths))
+
+death_by_date <- ggplot(data = death_by_date_df) +
+  geom_line(mapping = aes(x = Date, y = sum_death, group = 1)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Death by Date",
+    x = "Date",
+    y = "Number of Cases"
+  )
+
+# Natural gas price by date
+natural_by_date <- ggplot(data = stock_recent) +
+  geom_line(mapping = aes(x = Date, y = Price, group = 1)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Natural Gas Price by Date",
+    x = "Date",
+    y = "Price(USD)"
+  )
 
 # Death Rate vs Survival Rate
 
-virus <- getVirus()
+
 processed <- virus %>% group_by(Date) %>%
   summarise(sum_confirmed = sum(Confirmed),
             sum_death = sum(Deaths),

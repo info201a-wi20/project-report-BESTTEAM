@@ -38,6 +38,7 @@ The correlation of these two factor is `r corr`,which is a quite small number, i
 
 
 #### 2. 
+This question is interesting because we are able to find out if people’s willingness to participate in the economy is an issue and if there is anything we need to do about it, considering the severity of the coronavirus. 
 
 
 

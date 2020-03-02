@@ -9,6 +9,15 @@ library("maps")
 
 source(paste0(getwd(), "/GetData.R"))
 
+# Sample of sources
+path <- paste0(getwd(), "/daily_csv.csv")
+natural_gas <- read.csv(path, stringsAsFactors = FALSE)
+ng <- natural_gas[5794:5813,]
+ng$Date <- as.Date(ng$Date)
+stock_sample <- getStock("2020-01-22", "2020-02-02", "US") %>% left_join(ng, by = "Date") %>% top_n(3)
+virus_sample <- getVirus() %>% select(Date, Province.State, Country.Region, Confirmed, Deaths, Recovered) %>% top_n(3)
+
+
 
 # Death Rate vs Survival Rate
 
@@ -109,7 +118,6 @@ print(model)
 
 correlation <- cor(as.numeric(joined$Price), as.numeric(joined$mean_cases))
 
-# View(confirmed)
 
 #What is the comparison of the recover rate among all countries/regions?
 
@@ -137,5 +145,4 @@ recover_compare <- ggplot(data = comparision) +
   labs(title = "Recovery rate of Cononavirus among all countries/regions") +
   coord_quickmap() +
   theme_void()
-
 

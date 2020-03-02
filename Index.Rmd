@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 library(knitr)
 source("analysis.R")
+library("knitr")
 corr <- correlation
 ```
 
@@ -17,7 +18,7 @@ Recently, influenced by COVIS-19 pneumonia, Chinese state-backed importers of na
 
 Since natural gas is one of the three most important fossil fuels, the natural gas market could have a large impact on the global economy. Therefore, our group will discuss the correlation between the spreading of COVIS-19 and two important economic indicators, price of natural gas and NBEV stock, in the final project. NBEV stock is an important but relatively risky stock which could reflect the stability of the stock market. If the price of NBEV goes down, it’s probably because investors become concerned about the future economy in the short run.
 
-The data of COVIS-19 virus spreading is from the World Health Organization and the data of natural gas prices is from datahub. They are all credible and sources. Only very basic statistical knowledge will be involved in our report and it should be straightforward for every reader!
+Only very basic statistical knowledge will be involved in our report and it should be straightforward for every reader!
 
 
 ### The List of Questions Covered:
@@ -26,7 +27,7 @@ The data of COVIS-19 virus spreading is from the World Health Organization and t
 
 Since the outbreak of coronavirus has raised concerns of suppliers of natural gas, it is meaningful to explore the relationship between natural gas prices and confirmed cases number.
 
-In this question, we use simple regression model and correlation to solve this problem. 
+In this question, we use simple regression model and correlation to solve this problem.The data of COVIS-19 virus spreading is from the World Health Organization(https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset) and the data of natural gas prices is from datahub(https://datahub.io/core/natural-gas). They are all credible and sources. 
 
 Under the simple regression model, we can get a graph of the number of confirmed cases and the price of natural gas.
 ```{r echo=FALSE}
@@ -34,8 +35,6 @@ reg
 ```
 
 The correlation of these two factor is `r corr`,which is a quite small number, indicating that based on the data we obtained, natural gas price seems to be unrelated with the number of cases confirmed statistically. Even though this conclusion seems to contradict with the economic expectation, it is explainable because currently, we have very limited statistics of coronavirus spreading. Restricted by the small pool of data, it is possible that our conclusion is not consistent with the long-term trend.
-
-
 
 
 #### 2. 
@@ -66,3 +65,23 @@ According to the coronavirus data, it is clear that because the outbreak of the 
 
 
 #### 5. 
+
+
+## Data Description
+We are using two datasets: one is the novel coronavirus dataset which contains the records of value for the confirmed case, recovered case and death case from different districts over the world by date; another is the economic change dataset which contains the value for natural gas trade and the US stock market value within the same time zone as the coronavirus. 
+
+We got the novel coronavirus dataset from [Kaggle](https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data originally comes from Johns Hopkins University. One note about this dataset is that it’s time series data.
+
+```{r echo=FALSE}
+kable(virus_sample)
+```
+
+In the above table: Confirmed, Death, Recovered are the number of the Confirmed, Death, Recovered found in Province.State of Country.Region on that Date. The unit is person.
+
+The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the [yahoo finance api](https://rapidapi.com/apidojo/api/yahoo-finance1), end point "stock/get-histories" and parsed into an expected format. It is joined with the data of natrual gas by date. The data of natrual gas is retrived from [datahub](https://datahub.io/core/natural-gas), that is collected from U.S. Energy Information Administration EIA Dataset.
+
+```{r echo=FALSE}
+kable(stock_sample)
+```
+
+In the above table: low, high, close, open is the lowest price, highest price, closing price, and opening price in USD of "NBEV" on that date, price is the price of natural gas in USD. Volume is the volume of trade of "NBEV" on that date.

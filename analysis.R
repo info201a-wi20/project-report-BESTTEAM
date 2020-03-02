@@ -244,7 +244,6 @@ virus_df <- read.csv("data/cov_data/time_series_covid_19_confirmed.csv",
 stock_df_close <- stock_df %>% select(Date, close)
 virus_df <- virus_df %>% filter(Country.Region == "Mainland China")
 
-
 drops <- c("Province.State", "Country.Region", "Lat", "Long")
 virus_df <- virus_df[ , !(names(virus_df) %in% drops)]
 mean <- virus_df %>% 
@@ -253,13 +252,12 @@ mean <- virus_df %>%
 virus_df_new <-data.frame(c(mean)) %>% 
   gather(key = Date, value = Confirmed_cases) %>% select(Confirmed_cases)
 
-date_insert <- c(stock_df_close %>% pull(Date)) #  length 21
-
+date_insert_close <- c(stock_df_close %>% pull(Date))
 virus_df_new <- virus_df_new[-c(4, 5, 6, 11, 12, 18, 19, 22, 23), ]
 
-new_date_frame <- data.frame(stock_df_close, virus_df_new)
+new_date_frame_close <- data.frame(stock_df_close, virus_df_new)
 
-reg <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder(close, virus_df_new)), y = close))+
+reg_close <- ggplot(data = new_date_frame_close, mapping = aes(x = as.numeric(reorder(close, virus_df_new)), y = close))+
   geom_point(color = "red")+
   labs(title = "Regression of closing stock amount and confirmed cases", 
        x = "Number of confirmed cases", 
@@ -267,7 +265,7 @@ reg <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder(close,
   geom_smooth(method = "lm", se = FALSE, color = "blue")+
   theme_bw()
 
-correlation_close <- cor(as.numeric(new_date_frame$close), as.numeric(new_date_frame$virus_df_new)) # 0.5493214
+correlation_close <- cor(as.numeric(new_date_frame_close$close), as.numeric(new_date_frame_close$virus_df_new)) 
 
 
 #What is the comparison of the recover rate among all countries/regions?

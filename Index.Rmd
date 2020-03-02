@@ -10,6 +10,7 @@ library(knitr)
 source("analysis.R")
 library("knitr")
 corr <- correlation
+corr3 <- correlation_close
 ```
 
 ## Problem Domain
@@ -77,7 +78,11 @@ Under the simple regression model, we can get a graph of the number of confirmed
 reg
 ```
 
-The correlation of these two factor is `r corr`,which is a quite small number, indicating that based on the data we obtained, natural gas price seems to be unrelated with the number of cases confirmed statistically. Even though this conclusion seems to contradict with the economic expectation, it is explainable because currently, we have very limited statistics of coronavirus spreading. Restricted by the small pool of data, it is possible that our conclusion is not consistent with the long-term trend.
+**Result:** 
+The correlation of these two factor is `r corr`,which is a quite small number, indicating that based on the data we obtained, natural gas price seems to be unrelated with the number of cases confirmed statistically. 
+
+**Evaluation:** 
+Even though this conclusion seems to contradict with the economic expectation, it is explainable because currently, we have very limited statistics of coronavirus spreading. Restricted by the small pool of data, it is possible that our conclusion is not consistent with the long-term trend.
 
 
 #### 2. 
@@ -85,7 +90,25 @@ This question is interesting because we are able to find out if people’s willi
 
 
 
-#### 3. 
+#### 3. To what extent are the coronavirus pneumonia cases affecting the amount of money that are exchanging the economy.
+
+This question is interesting because we are able to see if the amount of money people are willing to spend on the stock market is currently in a bad state and if there is anything we need to do about it, considering the severity of the coronavirus.
+
+In this question, we use simple regression model and correlation to solve this problem.The data of COVIS-19 virus spreading is from the World Health Organization(https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the yahoo finance api (https://rapidapi.com/apidojo/api/yahoo-finance1, end point stock/get-histories) and parsed into an expected format.
+
+I pulled out the stock closing amount data for China first(from 2020-01-22 to 2020-02-20), and also the data of COVIS-19. Then I calculated the mean value of confirmed cases for each date that was included and put that into a seperate data frame. Since there are some dates missing in the stock data frame, for clarity and simplicity, I droped some rows in the confirmed cases table to match the number of rows in stock data frame so that it's easier to join and analysis. Then I put the information on these two tables together, and draw the graph that shows the relationship between closing amount of stock and the number of confirmed cases for COVIS-19.
+
+Under the simple regression model, we can get a graph of the number of confirmed cases and the close amount of stock. 
+```{r recovery, echo=FALSE}
+reg_close
+```
+
+**Result:** 
+The correlation of these two factor is `r corr3`,which is close to 1, indicating that based on the data we obtained, number of confirmed cases and the close amount of stock are highly related. 
+
+**Evaluation:** 
+It is explainable because currently, economics is affected by the confirmed cases. Many people don't have confidence about the current stock because the coronaviru. So there are more and more closed stock. 
+
 
 
 
@@ -123,10 +146,12 @@ The following graph is made by mapping the two rates to date by timeline. The gr
 death_vs_recover
 ```
 
+**Result:** 
 We also tried to understand which region has the highest death rate and recover rate. We did that by grouping the dataset by the country and summing the number of confirmed of the latest record and calcultae the death and recover rate. The result is that `r max_death_region` has the max death rate of `r paste0(round(max_death_rate, 0), "%")` and `r max_recover_region` has the max recover rate of `r paste0(max_recover_rate, "%")`.
 
 Based on the graph, we can observe that the recover rate has a decrease before Febuary and then it shows a trend of growth, where the death rate has been fluctuating at the same level. We can conclude that even though the death rate is not getting lower, we are still doing well on the recover rate.
 
+**Evaluation:** 
 There are some limitations to our data that is worth discussing. First, the max recover rate is `r paste0(max_recover_rate, "%")` in `r max_recover_region`, where there is only one confirmed case and the person has recovered, it is one of the edge cases that does not signify any information about the medical system. Second, the data used for the graph is the sum from all regions where each region are in various stages of the breakout. It is not the best practice for analysing how we are doing on the medical system. Third, the amount of data is still limited given that the break out was not far ago. More data is needed for making a conclusion.
 
 However, baase on the current data, we can see that the death rate of `r paste0(round(death_latest, 0), "%")`, and the recover rate of `r paste0(round(recover_latest, 0), "%")` are approaching to the right estimated value and more and more people are getting recovered from the virus. While there is no medical treatment targetting this virus, there is no need to worry about it too much if the right actions are made to protect people from getting infected.

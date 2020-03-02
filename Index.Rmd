@@ -1,5 +1,5 @@
 ---
-title: "Report"
+title: "The Spread of COVIS-19 and Its Effect on Economy"
 author: "Andrew Liu, Carol Wang, Luna_Lan, Sarah Hu, Ziyi An"
 date: "2/25/2020"
 output: html_document
@@ -18,9 +18,18 @@ corr3 <- correlation_close
 
 Recently, influenced by COVIS-19 pneumonia, Chinese state-backed importers of natural gas are examining if they can provisionally halt contracts for the supercooled fuel, as the COVIS-19 outbreak depresses energy demand in the world’s second-largest economy. This temporary cancellation of contracts has created headaches for natural gas suppliers and made them concerned about the future.
 
-Since natural gas is one of the three most important fossil fuels, the natural gas market could have a large impact on the global economy. Therefore, our group will discuss the correlation between the spreading of COVIS-19 and two important economic indicators, price of natural gas and NBEV stock, in the final project. NBEV stock is an important but relatively risky stock which could reflect the stability of the stock market. If the price of NBEV goes down, it’s probably because investors become concerned about the future economy in the short run.
+Since natural gas is one of the three most important fossil fuels, the natural gas market could have a large impact on the global economy. In addition, stock market is also a great indicator of the global economy. Therefore, our group will discuss the correlation between the spreading of COVIS-19 and two important economic indicators, price of natural gas and NBEV stock, in the final project. NBEV stock is an important but relatively risky stock which could reflect the stability of the stock market. If the price of NBEV goes down, it’s probably because investors become concerned about the future economy in the short run.
 
 Only very basic statistical knowledge will be involved in our report and it should be straightforward for every reader!
+
+### Analysis Questions
+Our report attempt to answer the following questions:
+
+1. Based on the data set, does the number of coronovirus pneumonia cases confirmed have no effect on the price of natural gas?
+2. Based on the data set, what is the effect of the number of coronavirus pneumonia cases confirmed have on the volume of the stock trade of NBEV? 
+3. To what extent are the coronavirus pneumonia cases affecting the amount of money that are exchanging the economy.
+4. Based on the data set, how is each country dealing with this issue? 
+5. Based on the data set, are we dealing with this issue better or worse based on the current medical technologies?
 
 ## Data Description
 We are using two datasets: one is the novel coronavirus dataset which contains the records of value for the confirmed case, recovered case and death case from different districts over the world by date; another is the economic change dataset which contains the value for natural gas trade and the US stock market value within the same time zone as the coronavirus. 
@@ -41,7 +50,8 @@ kable(stock_sample)
 
 In the above table: low, high, close, open is the lowest price, highest price, closing price, and opening price in USD of "NBEV" on that date, price is the price of natural gas in USD. Volume is the volume of trade of "NBEV" on that date.
 
-### Data Analysis
+### Summary Analysis
+
 By analyzing the COVIS-19 data, we get that currently, there are `r sum_confirmed` confirmed cases, `r sum_death` death cases, and `r sum_recovered` cases world wide by 02/23/2020. We can see that it is reaaly a big and worldwide issue now. The max stock closing price is `r round(max_close, 2)` and the max natural gas price is `r max_natural`. These data would be intereting to think about, considering the corelation with the COVIS-19 issue.
 
 The are some graphs showing the analysis of the data
@@ -85,12 +95,10 @@ The correlation of these two factor is `r corr`,which is a quite small number, i
 Even though this conclusion seems to contradict with the economic expectation, it is explainable because currently, we have very limited statistics of coronavirus spreading. Restricted by the small pool of data, it is possible that our conclusion is not consistent with the long-term trend.
 
 
-#### 2. Based on the data set, what is the effect of the number of coronavirus pneumonia cases confirmed have on the volume of the stock trade of [company]? 
+#### 2. Based on the data set, what is the effect of the number of coronavirus pneumonia cases confirmed have on the volume of the stock trade of NBEV? 
 **(i.e.: To what extent are the coronavirus pneumonia cases affecting the willingness that people have to participate in the economy.)**
 
 We would like to find out if people’s willingness to participate in the economy is an issue and if there is anything we need to do about it, considering the severity of the coronavirus.
-
-In this question, we use simple regression model and correlation to solve this problem.The data of COVIS-19 virus spreading is from the World Health Organization(https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the yahoo finance api (https://rapidapi.com/apidojo/api/yahoo-finance1, end point stock/get-histories) and parsed into an expected format.
 
 **Data analysis method: **
 I pulled out the stock data for China first(from 2020-01-22 to 2020-02-20), and also the data of COVIS-19. Then I calculated the mean value of confirmed cases for each date that was included and put that into a seperate data frame. Since there are some dates missing in the stock data frame, for clarity and simplicity, I droped some rows in the confirmed cases table to match the number of rows in stock data frame so that it's easier to join and analysis. Then I put the information on these two tables together, and draw the graph that shows the relationship between volume of stock and the number of confirmed cases for COVIS-19.
@@ -108,8 +116,6 @@ The result answers the question that there definitely have correlations between 
 #### 3. To what extent are the coronavirus pneumonia cases affecting the amount of money that are exchanging the economy.
 
 This question is interesting because we are able to see if the amount of money people are willing to spend on the stock market is currently in a bad state and if there is anything we need to do about it, considering the severity of the coronavirus.
-
-In this question, we use simple regression model and correlation to solve this problem.The data of COVIS-19 virus spreading is from the World Health Organization(https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset). The data of stock trade is a table with date matched to a summary of trades that happened on that day. It includes, high, low, volume, open price, and closing price. It is retrieved from the yahoo finance api (https://rapidapi.com/apidojo/api/yahoo-finance1, end point stock/get-histories) and parsed into an expected format.
 
 I pulled out the stock closing amount data for China first(from 2020-01-22 to 2020-02-20), and also the data of COVIS-19. Then I calculated the mean value of confirmed cases for each date that was included and put that into a seperate data frame. Since there are some dates missing in the stock data frame, for clarity and simplicity, I droped some rows in the confirmed cases table to match the number of rows in stock data frame so that it's easier to join and analysis. Then I put the information on these two tables together, and draw the graph that shows the relationship between closing amount of stock and the number of confirmed cases for COVIS-19.
 

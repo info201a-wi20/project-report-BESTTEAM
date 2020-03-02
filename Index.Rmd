@@ -6,6 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+library(knitr)
 source("analysis.R")
 library("knitr")
 corr <- correlation
@@ -21,7 +22,8 @@ Only very basic statistical knowledge will be involved in our report and it shou
 
 
 ### The List of Questions Covered:
-1. Based on the data set, what is the effect of the number of coronavirus pneumonia cases confirmed have on the price of natural gas?
+
+#### 1. Based on the data set, does the number of coronovirus pneumonia cases confirmed have no effect on the price of natural gas?
 
 Since the outbreak of coronavirus has raised concerns of suppliers of natural gas, it is meaningful to explore the relationship between natural gas prices and confirmed cases number.
 
@@ -35,9 +37,34 @@ reg
 The correlation of these two factor is `r corr`,which is a quite small number, indicating that based on the data we obtained, natural gas price seems to be unrelated with the number of cases confirmed statistically. Even though this conclusion seems to contradict with the economic expectation, it is explainable because currently, we have very limited statistics of coronavirus spreading. Restricted by the small pool of data, it is possible that our conclusion is not consistent with the long-term trend.
 
 
+#### 2. 
 
-2. 
 
+
+#### 3. 
+
+
+
+#### 4. Based on the data set, how is each country dealing with this issue? 
+**(i.e.: What is the comparison of the recovery rate among all countries/regions?)**
+
+This question is interesting because we will then be able to gain a sense of how people are taking control of the issue and which country could potentially have a better medical system or technology.
+
+I first pull the data of Conoravirus case by the getVirus function we created. I also get the data of the world map through wbstats package. Then I added iso3c code to each data set so they can join later.(There is no iso3c code for "Mainland China" so I combined the data from Mainland china, Hongkong, Macau and Taiwan into "China".) In order to get the recover rate among each countries/region, I then grouped the countries/region, used the summary feature in dplyr package to sum up the confirmed cases and also the recover cases. Then I added a column calculating the percentage of recover rate. After this, I used left.join to combine the virus dataset with the world map dataset, then use ggplot to create a visualization for it.
+
+```{r recovery, echo=FALSE}
+plot(recover_compare)
+```
+
+**Result:** 
+
+The darker the color, the lower the recovery rate is. For countries/regions that have over 100 confirmed cases, Italy, South Korea, Canada, the US, and China are five countries that have a lower recovery rate. China, with its vast confirmed case (1201794) and its 15% recovery rate, has a moderate level of control policies and significant medical resources support. However, countries like Italy with its 1.02% recovery rate, South Korea with its 8% recovery rate, Canada with its 10.77% recovery rate, and the US with its 12.81% recovery rate should pay more attention to this issue and provide more medical resources for their citizens.
+
+**Evaluation:** 
+According to the coronavirus data, it is clear that because the outbreak of the virus in different countries takes time, every region are at a different stage right now. We are still in the middle of the epidemic, and the data are updating every day, which means that the results we got now are not the latest and might not valid in the future.
+
+
+#### 5. 
 
 
 ## Data Description
@@ -58,4 +85,3 @@ kable(stock_sample)
 ```
 
 In the above table: low, high, close, open is the lowest price, highest price, closing price, and opening price in USD of "NBEV" on that date, price is the price of natural gas in USD. Volume is the volume of trade of "NBEV" on that date.
-

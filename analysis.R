@@ -152,7 +152,7 @@ reg_volume <- ggplot(data = new_date_frame, mapping = aes(x = as.numeric(reorder
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
   theme_bw()
 
-correlation <- cor(as.numeric(new_date_frame$virus_df_new), as.numeric(new_date_frame$volume)) # 0.5493214
+correlation_volume <- cor(as.numeric(new_date_frame$virus_df_new), as.numeric(new_date_frame$volume)) # 0.5493214
 
 
 #What is the comparison of the recover rate among all countries/regions?
